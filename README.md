@@ -65,6 +65,10 @@ $$
 $$
 
 $$
+\text{Initial Bikes at} \text{Station } i = \left\lfloor \frac{\text{Bike Rentals at Station } i}{\text{Total Bike Rentals}} \times \text{Total Bikes} \right\rfloor
+$$
+
+$$
 \text{Initial Bikes at Station}_0 = \left\lfloor \frac{\text{2,059 Bike Rentals at Station}_0}{\text{4,431,917 Total Bike Rentals}} \times \text{39,162 Total Bikes} \right\rfloor = \text{18 Bikes} 
 $$
 
@@ -83,7 +87,7 @@ Where:
 - $\mu_{\text{Rentals}}$: Daily net predicted bike rentals at the given hour. 
 
 $$
-P(\text{Bike Shortage at Station } 0) at 6 PM on 6/24 = \text{SkellamCDF}(-1 \cdot \text{18, } \mu_{\text{53.71 Return}} \mu_{\text{41.11 Rentals}}) = \text{18.22\%} 
+P(\text{Bike Shortage) (at Station } 0 \text{ at 6 PM on 6/24}) = \text{SkellamCDF}(\text{-18, } \text{53.71, } \text{41.11, }) = \text{18.22\%} 
 $$
 
 
