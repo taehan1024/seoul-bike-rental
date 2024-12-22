@@ -9,17 +9,69 @@ Building on the [initial analysis](README_v1.md) of predicting hourly bike renta
 
 ## **Methods**
 
-1. Predicting Bike Rental and Return Demand
-- Similar to the previous analysis predicting bike rental demand, train another GAM model using geographical locations, days, hours, and past rental demands for each station.
+### **1. Predicting Bike Rental and Return Demand**
+- Train Poisson GAM models to predict bike rentals and returns on an hourly basis, incorporating variables such as geographical locations, days, hours, and past rental and return data for each station, respectively.
 
-2. Net Changes at Each Station
-- Subtract predicted bike returns from rentals for each station and hour.
-- Calculate the net change to determine the net surplus or shortage for each hour from 6 AM to 5 AM the next day.
+The Poisson GAM will be structured as follows:
 
-3. Initial Bike Allocation
-- Assign the initial number of bikes to each station at the start of the day (6 AM), weighted based on the average rentals at each station.
+$$
+\log(\lambda) = \beta_0 + f_1(\text{latitude}, \text{longitude}) + f_2(\text{weekday}) + f_3(\text{hour}) + f_4(\text{weekday} \times \text{hour}) + f_5(\text{past rentals/returns})
+$$
 
-4. Bike Shortage Simulation 
+Where:
+- $\lambda$ is the expected number of bike rentals/returns at each station on an hourly basis.
+- $f_1(\text{latitude}, \text{longitude})$ is an interaction term that captures the non-linear impact of geographical location on bike rentals/returns.
+- $f_2(\text{weekday})$ and $f_3(\text{hour})$ represent smooth functions to capture the periodic and seasonal effects of day and time.
+- $f_4(\text{weekday} \times \text{hour})$ is an interaction term that captures any combined effects between the day of the week and hour of the day.
+- $f_5(\text{past rentals/returns})$ accounts for rolling averages of bike rentals/returns over the past 7 days on an hourly basis, capturing both the inherent and recent demand for each station.
+
+### **2. Daily Net Bike Rentals and Returns at Each Station**
+- Calculate the daily net predicted bike rentals and returns by accumulating hourly predictions from 6 Am to 5 AM the following day.
+
+|   station_number | date       |   hour |   rent_pred |   net_rent_pred |   return_pred |   net_return_pred |
+|-----------------:|:-----------|-------:|------------:|----------------:|--------------:|------------------:|
+|                0 | 2024-06-24 |      6 |        1.05 |            1.05 |          1.64 |              1.64 |
+|                0 | 2024-06-24 |      7 |        2.68 |            3.73 |          3.76 |              5.4  |
+|                0 | 2024-06-24 |      8 |        3.69 |            7.43 |          9.83 |             15.23 |
+|                0 | 2024-06-24 |      9 |        1.17 |            8.59 |          5.75 |             20.98 |
+|                0 | 2024-06-24 |     10 |        1.56 |           10.16 |          4.86 |             25.84 |
+|                0 | 2024-06-24 |     11 |        1.83 |           11.99 |          3    |             28.84 |
+|                0 | 2024-06-24 |     12 |        1.75 |           13.74 |          1.87 |             30.71 |
+|                0 | 2024-06-24 |     13 |        2.38 |           16.12 |          2.98 |             33.69 |
+|                0 | 2024-06-24 |     14 |        2.2  |           18.32 |          2.1  |             35.79 |
+|                0 | 2024-06-24 |     15 |        2.25 |           20.57 |          1.77 |             37.56 |
+|                0 | 2024-06-24 |     16 |        3.91 |           24.48 |          2.89 |             40.46 |
+|                0 | 2024-06-24 |     17 |        6.39 |           30.87 |          5.09 |             45.54 |
+|                0 | 2024-06-24 |     18 |       10.24 |           41.11 |          8.16 |             53.71 |
+|                0 | 2024-06-24 |     19 |        5.69 |           46.8  |          5.1  |             58.81 |
+|                0 | 2024-06-24 |     20 |        4.38 |           51.18 |          3.29 |             62.09 |
+|                0 | 2024-06-24 |     21 |        3.86 |           55.04 |          3.19 |             65.28 |
+|                0 | 2024-06-24 |     22 |        2.75 |           57.79 |          2.92 |             68.2  |
+|                0 | 2024-06-24 |     23 |        1.01 |           58.8  |          0.91 |             69.11 |
+|                0 | 2024-06-25 |      0 |        1.51 |           60.31 |          1.19 |             70.31 |
+|                0 | 2024-06-25 |      1 |        1.56 |           61.87 |          1.09 |             71.4  |
+|                0 | 2024-06-25 |      2 |        0.68 |           62.55 |          0.56 |             71.96 |
+|                0 | 2024-06-25 |      3 |        0.33 |           62.88 |          0.26 |             72.22 |
+|                0 | 2024-06-25 |      4 |        0.33 |           63.21 |          0.33 |             72.55 |
+|                0 | 2024-06-25 |      5 |        0.63 |           63.84 |          0.79 |             73.33 |
+
+
+### **3. Initial Bike Allocation**
+- Assign the initial number of bikes to each station at the start of the day (6 AM), weighted according to the average number of rentals at each station. Round down to the nearest integer.
+
+$$
+\text{Initial Bikes at Station } i = \left\lfloor \frac{\text{Number of Bike Rentals at Station } i}{\text{Total Number of Bike Rentals in the System}} \times \text{Number of Unique Bikes in the System} \right\rfloor
+$$
+
+$$
+\text{Initial Bikes at Station}_0 = \left\lfloor \frac{\text{2,059 Bike Rentals at Station}_0}{\text{4,431,917 Total Bike Rentals}} \times \text{39,162 Bikes} \right\rfloor = 18
+$$
+
+
+
+
+
+### **4. Bike Shortage Simulation** 
 - Define a shortage as having fewer than 0 bikes remaining, considering the initial allocation and expected net changes throughout the day on an hourly basis.
 - Use the [Skellam distribution](https://en.wikipedia.org/wiki/Skellam_distribution) to calculate the probability of the number of bikes at a station dropping below zero, based on the difference between predicted returns and rentals.
 
