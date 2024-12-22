@@ -77,14 +77,14 @@ $$
 
 For $$\text{Station}_i \text{ at } \text{Hour}_h \text{ on } \text{Date}_d$$:
 
-$
-\P(\text{Shortage}_i) \text{ at h on d} = \text{SkellamCDF}(-1 \cdot \text{Initial Bikes}_i, \text{Net Return}_idh, \text{Net Rentals}_idh)
+$$
+P(\text{Shortage}_i) \text{ at } \text{Hour}_h \text{ on } \text{Date}_d = \text{SkellamCDF}(-1 \cdot \text{Initial Bikes}_i, \text{Net Return}_{idh}, \text{Net Rentals}_{idh})
 $$
 
 Where:
 - $\text{Initial Bikes}$: Number of bikes initially at the station at 6 AM.  
-- $\text{Net Return}_idh$: Daily net predicted bike returns at the given date and hour.  
-- $\text{Net Rentals}_idh$: Daily net predicted bike rentals at the given date and hour. 
+- $\text{Net Return}_{idh}$: Daily net predicted bike returns at the given date and hour.  
+- $\text{Net Rentals}_{idh}$: Daily net predicted bike rentals at the given date and hour. 
 
 $$
 P(\text{Shortage}_0) \text{ at 6 PM on 6/24} = \text{SkellamCDF}(\text{-18, } \text{53.71, } \text{41.11}) = \text{18.22\%} 
@@ -93,26 +93,26 @@ $$
 ### **5. Ride Simulation** 
 - Per bike ride, returning stations would gain an additional bike reducing bike shortage probabilities while renting stations would lose one increasing the probabilities of bike shortage.  
 
-For a bike ride from $$\text{Station }_i$$ to $$\text{Station }_j$$:
+For a bike ride from $$\text{Station }_i$$ to $$\text{Station }_j \text{ at } \text{Hour}_h \text{ on } \text{Date}_d$$:
 
 $$
-P(\text{Shortage with +1 bike}_j) = \text{SkellamCDF}(-1 \cdot (\text{Initial Bikes} - 1), \mu_{\text{Returns}}, \mu_{\text{Rentals}})
-$$
-
-$$
-\Delta P(\text{Shortage with +1 bike}_j) = P(\text{Shortage with +1 bike}_j) - P(\text{Shortage}_j)
+P(\text{Shortage with +1 bike}_{jdh}) = \text{SkellamCDF}(-1 \cdot \text{Initial Bikes} - 1, \text{Net Return}_{jdh}, \text{Net Rentals}_{jdh})
 $$
 
 $$
-P(\text{Shortage with -1 bike}_i) = \text{SkellamCDF}(-1 \cdot (\text{Initial Bikes} + 1), \mu_{\text{Returns}}, \mu_{\text{Rentals}})
+\Delta P(\text{Shortage with +1 bike}_{jdh}) = P(\text{Shortage with +1 bike}_{jdh}) - P(\text{Shortage}_{jdh})
 $$
 
 $$
-\Delta P(\text{Shortage with -1 bike}_i) = P(\text{Shortage with -1 bike}_i) - P(\text{Shortage}_i)
+P(\text{Shortage with -1 bike}_{idh}) = \text{SkellamCDF}(-1 \cdot \text{Initial Bikes} + 1, \text{Net Return}_{idh}, \text{Net Rentals}_{idh})
 $$
 
 $$
-\Delta P(\text{Shortage for Ride}_{ij}) = \Delta P(\text{Shortage with +1 bike}_j) + \Delta P(\text{Shortage with -1 bike}_i)
+\Delta P(\text{Shortage with -1 bike}_{idh}) = P(\text{Shortage with -1 bike}_{idh}) - P(\text{Shortage}_{idh})
+$$
+
+$$
+\Delta P(\text{Shortage for Ride}_{ijdh}) = \Delta P(\text{Shortage with +1 bike}_{jdh}) + \Delta P(\text{Shortage with -1 bike}_{idh})
 $$
 
 
