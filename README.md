@@ -67,8 +67,7 @@ $$
 $$
 
 $$
-\text{Initial Bikes}_i = \left\lfloor \frac{\text{Bike Rentals}_i}{\text{Total Bike Rentals}} \times \text{Total Bikes} \right\rfloor
-\text{Initial Bikes}_0 = \left\lfloor \frac{\text{2,059}{\text{4,431,917}}} \times \text{39,162} \right\rfloor = \text{18} 
+\text{Initial Bikes}_0 = \left\lfloor \frac{\text{2,059}}{\text{4,431,917}} \times \text{39,162} \right\rfloor = \text{18} 
 $$
 
 
@@ -79,7 +78,7 @@ $$
 For $$\text{Station }_i$$:
 
 $$
-P(\text{Shortage}_i) = P(X < 0) = \text{SkellamCDF}(-1 \cdot \text{Initial Bikes}, \mu_{\text{Returns}}, \mu_{\text{Rentals}})
+P(\text{Shortage}_i) = P(\text{X < 0}) = \text{SkellamCDF}(-1 \cdot \text{Initial Bikes, } \mu_{\text{Returns}, } \mu_{\text{Rentals}})
 $$
 
 Where:
