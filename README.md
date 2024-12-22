@@ -69,24 +69,26 @@ $$
 $$
 
 
-### **4. Bike Shortage Simulation** 
+### **4. Bike Shortage Probabilities** 
 - Define bike shortage as the condition where the number of bikes remaining at a station drops below 0.
 - Using the [Skellam distribution](https://en.wikipedia.org/wiki/Skellam_distribution), calculate the probabilities of the differences between daily net predicted bike returns and rentals falling below the initial number of bikes, on an hourly basis for each station.
 
 $$
-P(\text{Bike Shortage at Station} i) = P(X < 0) = \text{SkellamCDF}(-1 \cdot \text{Initial Bikes}, \mu_{\text{Returns}}, \mu_{\text{Rentals}})
+P(\text{Bike Shortage at Station } i) = P(X < 0) = \text{SkellamCDF}(-1 \cdot \text{Initial Bikes, } \mu_{\text{Returns, }} \mu_{\text{Rentals}})
 $$
 
 Where:
-- **Initial Bikes**: Number of bikes initially at the station at 6 AM.  
-- **μ_Returns**: Daily net predicted bike returns at the given hour.  
-- **μ_Rentals**: Daily net predicted bike rentals at the given hour. 
+- $\text{Initial Bikes}$: Number of bikes initially at the station at 6 AM.  
+- $\mu_{\text{Returns}}$: Daily net predicted bike returns at the given hour.  
+- $\mu_{\text{Rentals}}$: Daily net predicted bike rentals at the given hour. 
+
+$$
+P(\text{Bike Shortage at Station } 0) at 6 PM on 6/24 = \text{SkellamCDF}(-1 \cdot \text{18, } \mu_{\text{53.71 Return}} \mu_{\text{41.11 Rentals}}) = \text{18.22\%} 
+$$
 
 
-
-
-
-
+### **5. Ride Simulation** 
+;
 
 
 - Calculate the probabilities of shortage assuming the addition of one extra bike, and determine the differences from the original shortage probabilities. These differences represent the reduction in shortage probabilities due to the additional bike.
