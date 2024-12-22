@@ -78,7 +78,7 @@ $$
 For $$\text{Station }_i$$:
 
 $$
-P(\text{Shortage}_i) = P(\text{X < 0}) = \text{SkellamCDF}(-1 \cdot \text{Initial Bikes, } \mu_{\text{Returns}, } \mu_{\text{Rentals}})
+P(\text{Shortage}_i) = P(X < 0) = \text{SkellamCDF}(-1 \cdot \text{Initial Bikes}, \mu_{\text{Returns}}, \mu_{\text{Rentals}})
 $$
 
 Where:
