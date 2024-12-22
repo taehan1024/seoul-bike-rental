@@ -88,7 +88,30 @@ $$
 
 
 ### **5. Ride Simulation** 
-;
+- Per bike ride, returning stations would gain an additional bike reducing bike shortage probabilities while renting stations would lose one increasing the probabilities of bike shortage.  
+
+The effect of a bike ride from rental station i to return station j on the probabilities of bike shortages can be quantified as below:
+
+$$
+P(\text{Bike Shortage with +1 bike at Station } j) = \text{SkellamCDF}(-1 \cdot \text{Initial Bikes - 1, } \mu_{\text{Returns, }} \mu_{\text{Rentals}})
+$$
+
+    $$
+    \Delta P(\text{Bike Shortage at Station } j) = P(\text{Bike Shortage with +1 bike at Station } j) - P(\text{Bike Shortage at Station } j)
+    $$
+
+$$
+P(\text{Bike Shortage with -1 bike at Station } i) = \text{SkellamCDF}(-1 \cdot \text{Initial Bikes + 1, } \mu_{\text{Returns, }} \mu_{\text{Rentals}})
+$$
+
+    $$
+    \Delta P(\text{Bike Shortage at Station } i) = P(\text{Bike Shortage with -1 bike at Station } i) - P(\text{Bike Shortage at Station } i)
+    $$
+
+$$
+\Delta P(\text{Bike Shortage for Ride}_{ij}) = \Delta P(\text{Bike Shortage at Station } i) + \Delta P(\text{Bike Shortage at Station } j)
+$$
+
 
 
 - Calculate the probabilities of shortage assuming the addition of one extra bike, and determine the differences from the original shortage probabilities. These differences represent the reduction in shortage probabilities due to the additional bike.
