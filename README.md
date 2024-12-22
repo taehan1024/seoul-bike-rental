@@ -75,10 +75,10 @@ $$
 - Define bike shortage as the condition where the number of bikes remaining at a station drops below 0.
 - Using the [Skellam distribution](https://en.wikipedia.org/wiki/Skellam_distribution), calculate the probabilities of the differences between daily net predicted bike returns and rentals falling below the initial number of bikes, on an hourly basis for each station.
 
-For $$\text{Station}_i at \text{Hour}_h on \text{Date}_d$$:
+For $$\text{Station}_i \text{ at } \text{Hour}_h \text{ on } \text{Date}_d$$:
 
 $
-P(\text{Shortage}_i) \text{ at h on d} = \text{SkellamCDF}(-1 \cdot \text{Initial Bikes}_i, \text{Net Return}_idh, \text{Net Rentals}_idh)
+\P(\text{Shortage}_i) \text{ at h on d} = \text{SkellamCDF}(-1 \cdot \text{Initial Bikes}_i, \text{Net Return}_idh, \text{Net Rentals}_idh)
 $$
 
 Where:
