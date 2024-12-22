@@ -75,11 +75,11 @@ $$
 
 
 $$
-\P(\text{Bike Shortage at Station}_0) = P(X < 0) = \text{SkellamCDF}(-1 \cdot \text{Initial Bikes at Station}_0, \mu_{\text{Bike Returns}}, \mu_{\text{Bike Rentals}})
+P(\text{Bike Shortage at Station}_0) = P(X < 0) = \text{SkellamCDF}(-1 \cdot \text{Initial Bikes}, \mu_{\text{Bike Returns}}, \mu_{\text{Bike Rentals}})
 $$
 
 Where:
-- \text{Initial Bikes at Station}: Number of bikes initially at the station at 6 AM.
+- \text{Initial Bikes}: Number of bikes initially at the station at 6 AM.
 - \mu_{\text{Bike Returns}}: Daily net predicted bike returns on given hour
 - \mu_{\text{Bike Rentals}}: Daily net predicted bike rentals on given hour
 
