@@ -78,17 +78,13 @@ $$
 For $$\text{Station}_i \text{ at } \text{Hour}_h \text{ on } \text{Date}_d$$:
 
 $$
-P(\text{Shortage}) = \text{SkellamCDF}(-1 \cdot \text{Initial Bikes}_i, $\text{Net Return}_{idh}$, \text{Net Rentals}_i)
-$$
-
-$$
-P(\text{Shortage}) = \text{SkellamCDF}(-1 \cdot \text{Initial Bikes}_i, \text{Net Return} \text{Net Rentals})
+P(\text{Shortage}) = \text{SkellamCDF}(-1 \cdot \text{Initial Bikes}, \text{Net Return}, \text{Net Rentals})
 $$
 
 Where:
-- $\text{Initial Bikes}_i$: Number of bikes initially at the station at 6 AM.  
-- $\text{Net Return}_{idh}$: Daily net predicted bike returns at the given date and hour.  
-- $\text{Net Rentals}_{idh}$: Daily net predicted bike rentals at the given date and hour. 
+- $\text{Initial Bikes}_i$: Number of bikes initially at $\text{Station}_i$ at 6 AM.  
+- $\text{Net Return}_{idh}$: Daily net predicted bike returns at the given $\text{Date}_d$ and $\text{Hour}_h$.  
+- $\text{Net Rentals}_{idh}$: Daily net predicted bike rentals at the given $\text{Date}_d$ and $\text{Hour}_h$. 
 
 $$
 P(\text{Shortage}) \text{ for } \text{Station}_0 \text{ at 6 PM on 6/24} = \text{SkellamCDF}(\text{-18, } \text{53.71, } \text{41.11}) = \text{18.22\%} 
