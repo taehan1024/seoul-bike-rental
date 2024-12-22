@@ -78,7 +78,7 @@ $$
 For $$\text{Station}_i \text{ at } \text{Hour}_h \text{ on } \text{Date}_d$$:
 
 $$
-P(\text{Shortage}_i) \text{ at } \text{Hour}_h \text{ on } \text{Date}_d = \text{SkellamCDF}(-1 \cdot \text{Initial Bikes}_i, \text{Net Return}_{idh}, \text{Net Rentals}_{idh})
+P(\text{Shortage}_{idh}) = \text{SkellamCDF}(-1 \cdot \text{Initial Bikes}_i, \text{Net Return}_{idh}, \text{Net Rentals}_{idh})
 $$
 
 Where:
@@ -87,7 +87,7 @@ Where:
 - $\text{Net Rentals}_{idh}$: Daily net predicted bike rentals at the given date and hour. 
 
 $$
-P(\text{Shortage}_0) \text{ at 6 PM on 6/24} = \text{SkellamCDF}(\text{-18, } \text{53.71, } \text{41.11}) = \text{18.22\%} 
+P(\text{Shortage}) \text{ for } \text{Station}_0 \text{ at 6 PM on 6/24} = \text{SkellamCDF}(\text{-18, } \text{53.71, } \text{41.11}) = \text{18.22\%} 
 $$
 
 ### **5. Ride Simulation** 
@@ -96,25 +96,24 @@ $$
 For a bike ride from $$\text{Station }_i$$ to $$\text{Station }_j \text{ at } \text{Hour}_h \text{ on } \text{Date}_d$$:
 
 $$
-P(\text{Shortage with +1 bike}_{jdh}) = \text{SkellamCDF}(-1 \cdot \text{Initial Bikes} - 1, \text{Net Return}_{jdh}, \text{Net Rentals}_{jdh})
+P(\text{Shortage}_{jdh} \text{ with +1 bike}) = \text{SkellamCDF}(-1 \cdot \text{Initial Bikes} - 1, \text{Net Return}_{jdh}, \text{Net Rentals}_{jdh})
 $$
 
 $$
-\Delta P(\text{Shortage with +1 bike}_{jdh}) = P(\text{Shortage with +1 bike}_{jdh}) - P(\text{Shortage}_{jdh})
+\Delta P(\text{Shortage}_{jdh}) = P(\text{Shortage}_{jdh} \text{ with +1 bike}) - P(\text{Shortage}_{jdh})
 $$
 
 $$
-P(\text{Shortage with -1 bike}_{idh}) = \text{SkellamCDF}(-1 \cdot \text{Initial Bikes} + 1, \text{Net Return}_{idh}, \text{Net Rentals}_{idh})
+P(\text{Shortage}_{idh} \text{ with -1 bike}) = \text{SkellamCDF}(-1 \cdot \text{Initial Bikes} + 1, \text{Net Return}_{idh}, \text{Net Rentals}_{idh})
 $$
 
 $$
-\Delta P(\text{Shortage with -1 bike}_{idh}) = P(\text{Shortage with -1 bike}_{idh}) - P(\text{Shortage}_{idh})
+\Delta P(\text{Shortage}_{idh}) = P(\text{Shortage}_{idh} \text{ with -1 bike}) - P(\text{Shortage}_{idh})
 $$
 
 $$
-\Delta P(\text{Shortage for Ride}_{ijdh}) = \Delta P(\text{Shortage with +1 bike}_{jdh}) + \Delta P(\text{Shortage with -1 bike}_{idh})
+\Delta P(\text{Shortage}) \text{ for Ride}_{ijdh} = \Delta P(\text{Shortage}_{jdh}) + \Delta P(\text{Shortage}_{idh})
 $$
-
 
 
 - Calculate the probabilities of shortage assuming the addition of one extra bike, and determine the differences from the original shortage probabilities. These differences represent the reduction in shortage probabilities due to the additional bike.
