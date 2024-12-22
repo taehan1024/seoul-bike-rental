@@ -78,7 +78,7 @@ $$
 For $$\text{Station}_i \text{ at } \text{Hour}_h \text{ on } \text{Date}_d$$:
 
 $$
-P(\text{Shortage}) = \text{SkellamCDF}(-1 \times \text{Initial Bikes}_i, \text{Net Return}_{idh}, \text{Net Rentals}_{idh})
+P(\text{Shortage}) = \text{SkellamCDF}(-1 \cdot \text{Initial Bikes}_i, \text{Net Return}_i, \text{Net Rentals}_i)
 $$
 
 $$
