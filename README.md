@@ -60,16 +60,14 @@ Where:
 - Assign the initial number of bikes to each station at the start of the day (6 AM), weighted according to the average number of rentals at each station. Round down to the nearest integer.
 - Assume that at 6 AM each day, all stations are reset to their initial number of bikes.
 
+For $$\text{Station }_i$$:
+
 $$
-\text{Initial Bikes at Station } i = \left\lfloor \frac{\text{Bike Rentals at Station } i}{\text{Total Bike Rentals}} \times \text{Total Bikes} \right\rfloor
+\text{Initial Bikes}_i = \left\lfloor \frac{\text{Bike Rentals}_i}{\text{Total Bike Rentals}} \times \text{Total Bikes} \right\rfloor
 $$
 
 $$
-\text{Initial Bikes at} \text{Station } i = \left\lfloor \frac{\text{Bike Rentals at Station } i}{\text{Total Bike Rentals}} \times \text{Total Bikes} \right\rfloor
-$$
-
-$$
-\text{Initial Bikes at Station}_0 = \left\lfloor \frac{\text{2,059 Bike Rentals at Station}_0}{\text{4,431,917 Total Bike Rentals}} \times \text{39,162 Total Bikes} \right\rfloor = \text{18 Bikes} 
+\text{Initial Bikes}_0 = \left\lfloor \frac{\text{2,059}{\text{4,431,917}} \times \text{39,162} \right\rfloor = \text{18 Bikes} 
 $$
 
 
@@ -77,8 +75,10 @@ $$
 - Define bike shortage as the condition where the number of bikes remaining at a station drops below 0.
 - Using the [Skellam distribution](https://en.wikipedia.org/wiki/Skellam_distribution), calculate the probabilities of the differences between daily net predicted bike returns and rentals falling below the initial number of bikes, on an hourly basis for each station.
 
+For $$\text{Station }_i$$:
+
 $$
-P(\text{Bike Shortage at Station } i) = P(X < 0) = \text{SkellamCDF}(-1 \cdot \text{Initial Bikes, } \mu_{\text{Returns, }} \mu_{\text{Rentals}})
+P(\text{Shortage}_i) = P(X < 0) = \text{SkellamCDF}(-1 \cdot \text{Initial Bikes, } \mu_{\text{Returns, }} \mu_{\text{Rentals}})
 $$
 
 Where:
@@ -87,33 +87,32 @@ Where:
 - $\mu_{\text{Rentals}}$: Daily net predicted bike rentals at the given hour. 
 
 $$
-P(\text{Bike Shortage) (at Station } 0 \text{ at 6 PM on 6/24}) = \text{SkellamCDF}(\text{-18, } \text{53.71, } \text{41.11, }) = \text{18.22\%} 
+P(\text{Shortage}_0) \text{ at 6 PM on 6/24}) = \text{SkellamCDF}(\text{-18, } \text{53.71, } \text{41.11, }) = \text{18.22\%} 
 $$
-
 
 ### **5. Ride Simulation** 
 - Per bike ride, returning stations would gain an additional bike reducing bike shortage probabilities while renting stations would lose one increasing the probabilities of bike shortage.  
 
-The effect of a bike ride from rental station i to return station j on the probabilities of bike shortages can be quantified as below:
+For Ride from $$\text{Station }_i$$ to $$\text{Station }_j$$:
 
 $$
-P(\text{Bike Shortage with +1 bike at Station } j) = \text{SkellamCDF}(-1 \cdot \text{Initial Bikes - 1, } \mu_{\text{Returns, }} \mu_{\text{Rentals}})
-$$
-
-    $$
-    \Delta P(\text{Bike Shortage at Station } j) = P(\text{Bike Shortage with +1 bike at Station } j) - P(\text{Bike Shortage at Station } j)
-    $$
-
-$$
-P(\text{Bike Shortage with -1 bike at Station } i) = \text{SkellamCDF}(-1 \cdot \text{Initial Bikes + 1, } \mu_{\text{Returns, }} \mu_{\text{Rentals}})
+P(\text{Shortage with +1 bike}_j) = \text{SkellamCDF}(-1 \cdot \text{Initial Bikes - 1, } \mu_{\text{Returns, }} \mu_{\text{Rentals}})
 $$
 
     $$
-    \Delta P(\text{Bike Shortage at Station } i) = P(\text{Bike Shortage with -1 bike at Station } i) - P(\text{Bike Shortage at Station } i)
+    \Delta P(\text{Shortage with +1 bike}_j) = P(\text{Shortage with +1 bike}_j) - P(\text{Shortage}_j)
     $$
 
 $$
-\Delta P(\text{Bike Shortage for Ride}_{ij}) = \Delta P(\text{Bike Shortage at Station } i) + \Delta P(\text{Bike Shortage at Station } j)
+P(\text{Shortage with -1 bike}_i) = \text{SkellamCDF}(-1 \cdot \text{Initial Bikes + 1, } \mu_{\text{Returns, }} \mu_{\text{Rentals}})
+$$
+
+    $$
+    \Delta P(\text{Shortage with -1 bike}_i) = P(\text{Shortage with -1 bike}_i) - P(\text{Shortage}_i)
+    $$
+
+$$
+\Delta P(\text{Shortage) for \text{Ride}_ij = \Delta P(\text{Shortage with +1 bike}_j) + \Delta P(\text{Shortage with -1 bike}_i)
 $$
 
 
