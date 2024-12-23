@@ -12,13 +12,13 @@ Building on the [initial analysis](README_v1.md) of predicting hourly bike renta
 ### **1. Predicting Bike Rental and Return Demand**
 - Train Poisson GAM models to predict bike rentals and returns on an hourly basis, incorporating variables such as geographical locations, days, hours, and past rental and return data for each station, respectively.
 
-The Poisson GAM will be structured as follows:
+*The Poisson GAM will be structured as follows:*
 
 $$
 \log(\lambda) = \beta_0 + f_1(\text{latitude}, \text{longitude}) + f_2(\text{weekday}) + f_3(\text{hour}) + f_4(\text{weekday} \times \text{hour}) + f_5(\text{past rentals/returns})
 $$
 
-Where:
+*Where:*
 - $\lambda$ is the expected number of bike rentals/returns at each station on an hourly basis.
 - $f_1(\text{latitude}, \text{longitude})$ is an interaction term that captures the non-linear impact of geographical location on bike rentals/returns.
 - $f_2(\text{weekday})$ and $f_3(\text{hour})$ represent smooth functions to capture the periodic and seasonal effects of day and time.
@@ -28,7 +28,7 @@ Where:
 ### **2. Daily Net Bike Rentals and Returns at Each Station**
 - Calculate the daily net predicted bike rentals and returns by accumulating hourly predictions from 6 AM to 5 AM the following day.
 
-For $$\text{Station}_0 \text{on 6/24/2024}$$:
+*For $$\text{Station}_0 \text{ on 6/24/2024}$$:*
 
 |   station_number | date       |   hour |   rent_pred |   net_rent_pred |   return_pred |   net_return_pred |
 |-----------------:|:-----------|-------:|------------:|----------------:|--------------:|------------------:|
@@ -62,13 +62,13 @@ For $$\text{Station}_0 \text{on 6/24/2024}$$:
 - Assign the initial number of bikes to each station at the start of the day (6 AM), weighted according to the average number of rentals at each station. Round down to the nearest integer.
 - Assume that at 6 AM each day, all stations are reset to their initial number of bikes.
 
-For $$\text{Station}_i$$:
+*For $$\text{Station}_i$$:*
 
 $$
 \text{Initial Bikes}_i = \left\lfloor \frac{\text{Bike Rentals}_i}{\text{Total Bike Rentals}} \times \text{Total Bikes} \right\rfloor
 $$
 
-For $$\text{Station}_0$$:
+*For $$\text{Station}_0$$:*
 
 $$
 \text{Initial Bikes}_0 = \left\lfloor \frac{\text{2,059}}{\text{4,431,917}} \times \text{39,162} \right\rfloor = \text{18} 
@@ -79,18 +79,18 @@ $$
 - Define bike shortage as the condition where the number of bikes remaining at a station drops below 0.
 - Using the [Skellam distribution](https://en.wikipedia.org/wiki/Skellam_distribution), calculate the probabilities of the differences between daily net predicted bike returns and rentals falling below the initial number of bikes, on an hourly basis for each station.
 
-For $$\text{Station}_i \text{ at } \text{Hour}_h \text{ on } \text{Date}_d$$:
+*For $$\text{Station}_i \text{ at } \text{Hour}_h \text{ on } \text{Date}_d$$:*
 
 $$
 P(\text{Shortage}_ {idh}) = \text{SkellamCDF}(-1 \cdot \text{Initial Bikes}_ {i}, \text{Net Return}_ {idh}, \text{Net Rentals}_ {idh})
 $$
 
-Where:
+*Where:*
 - $\text{Initial Bikes}_i$: Number of bikes initially at $\text{Station}_i$ at 6 AM.  
 - $\text{Net Return}_{idh}$: Daily net predicted bike returns at the given $\text{Date}_d$ and $\text{Hour}_h$.  
 - $\text{Net Rentals}_{idh}$: Daily net predicted bike rentals at the given $\text{Date}_d$ and $\text{Hour}_h$. 
 
-For $$\text{Station}_0 \text{ for } \text{Station}_0 \text{ at 6 PM on 6/24/2024}:
+*For $$\text{Station}_0$$ $$\text{ at 6 PM on 6/24/2024}$$:*
 
 $$
 P(\text{Shortage}) = \text{SkellamCDF}(\text{-18, } \text{53.71, } \text{41.11}) = \text{18.22\%} 
@@ -101,79 +101,31 @@ $$
 - For each ride, the return station gains one additional bike, while the renting station loses one, influencing bike shortage probabilities. 
 - Calculate the changes in bike shortage probabilities when gaining or losing one additional bike, given the date and hour for each station. 
 
-When return $$\text{Station}_j$$ gains a bike at $$\text{Hour}_h$$ on $$\text{Date}_d$$:
+*When return $$\text{Station}_j$$ gains a bike at $$\text{Hour}_h$$ on $$\text{Date}_d$$:*
 
 $$
-P(\text{Shortage after +1 bike}_ {jdh}) = \text{SkellamCDF}(-1 \cdot \text{Initial Bikes}_ {j} - 1, \text{Net Return}_ {jdh}, \text{Net Rentals}_ {jdh})
-$$
-
-$$
-\Delta P(\text{Shortage}_ {jdh}) = P(\text{Shortage after +1 bike}_ {jdh}) - P(\text{Shortage}_ {jdh})
-$$
-
-When renting $$\text{Station}_i$$ loses a bike at $$\text{Hour}_h$$ on $$\text{Date}_d$$:
-
-$$
-P(\text{Shortage after -1 bike}_ {idh}) = \text{SkellamCDF}(-1 \cdot \text{Initial Bikes}_ {i} + 1, \text{Net Return}_ {idh}, \text{Net Rentals}_ {idh})
+P(\text{Shortage}_ {jdh} after +1 bike) = \text{SkellamCDF}(-1 \cdot \text{Initial Bikes}_ {j} - 1, \text{Net Return}_ {jdh}, \text{Net Rentals}_ {jdh})
 $$
 
 $$
-\Delta P(\text{Shortage}_ {idh}) = P(\text{Shortage after -1 bike}_ {idh}) - P(\text{Shortage}_ {idh})
+\Delta P(\text{Shortage}_ {jdh}) = P(\text{Shortage}_ {jdh} after +1 bike) - P(\text{Shortage}_ {jdh})
 $$
 
-When a bike travels from $$\text{Station}_i$$ to $$\text{Station}_j$$, the bike-sharing system experiences the following change in overall bike shortage probabilities:
+*When renting $$\text{Station}_i$$ loses a bike at $$\text{Hour}_h$$ on $$\text{Date}_d$$:*
+
+$$
+P(\text{Shortage}_ {idh} after -1 bike) = \text{SkellamCDF}(-1 \cdot \text{Initial Bikes}_ {i} + 1, \text{Net Return}_ {idh}, \text{Net Rentals}_ {idh})
+$$
+
+$$
+\Delta P(\text{Shortage}_ {idh}) = P(\text{Shortage}_ {idh} after -1 bike) - P(\text{Shortage}_ {idh})
+$$
+
+*When a bike travels from $$\text{Station}_i$$ to $$\text{Station}_j$$, the bike-sharing system experiences the following change in overall bike shortage probabilities:*
 
 $$
 \Delta P(\text{Shortage}_ {ijdh}) = \Delta P(\text{Shortage}_ {idh}) + \Delta P(\text{Shortage}_ {jdh})
 $$
 
-
-
-
-
-
-
-
-- Calculate the probabilities of shortage assuming the addition of one extra bike, and determine the differences from the original shortage probabilities. These differences represent the reduction in shortage probabilities due to the additional bike.
-
-\[
-P(\text{shortage\_plus\_one}) = \text{SkellamCDF}(-1 \times (\text{initial\_num\_bikes} + 1), \mu_{\text{return}}, \mu_{\text{rent}})
-\]
-
-### Reduction in Shortage Probabilities
-The reduction in the probability of shortage due to the additional bike is calculated as:
-
-\[
-\Delta P(\text{shortage\_plus\_one}) = P(\text{shortage}) - P(\text{shortage\_plus\_one})
-\]
-
-- Similarly, calculate the probabilities of shortage assuming one fewer bike, and determine the differences from the original probabilities. These differences represent the increased shortage probabilities due to the removal of one bike.
-
-\[
-P(\text{shortage\_minus\_one}) = \text{SkellamCDF}(-1 \times (\text{initial\_num\_bikes} - 1), \mu_{\text{return}}, \mu_{\text{rent}})
-\]
-
-### Increase in Shortage Probabilities
-The increase in the probability of shortage due to the removal of one bike is calculated as:
-
-\[
-\Delta P(\text{shortage\_minus\_one}) = P(\text{shortage\_minus\_one}) - P(\text{shortage})
-\]
-
-Where:
-- \(P(\text{shortage})\): Original probability of shortage.
-- \(P(\text{shortage\_minus\_one})\): Probability of shortage with one less bike.
-
-- We have quantified how much bike shortage probabilities are reduced with one additional bike or increased with one fewer bike for all stations across all hours. We can also quantify the overall change in bike shortage probabilities in the system for all possible bike rides from one station to another, with the rental station losing a bike and the return station gaining one.
-
-\[
-\Delta P_{\text{ride}}(\text{rent}, \text{return}) = \Delta P(\text{shortage\_plus\_one}) - \Delta P(\text{shortage\_minus\_one})
-\]
-
-Where:
-- \(\Delta P(\text{shortage\_plus\_one})\): Reduction in shortage probability due to adding one bike at the **return station**.
-- \(\Delta P(\text{shortage\_minus\_one})\): Increase in shortage probability due to removing one bike at the **rent station**.
-
-This allows for evaluating the net impact of a specific ride on system-wide shortages.
 
 
