@@ -28,7 +28,7 @@ $$
 ### **2. Daily Net Bike Rentals and Returns at Each Station**
 - Calculate the daily net predicted bike rentals and returns by accumulating hourly predictions from 6 AM to 5 AM the following day.
 
-*For $$\text{Station}_0 \text{ on 6/24/2024}$$:*
+_For $$\text{Station}_0 \text{ on 6/24/2024}$$:_
 
 |   station_number | date       |   hour |   rent_pred |   net_rent_pred |   return_pred |   net_return_pred |
 |-----------------:|:-----------|-------:|------------:|----------------:|--------------:|------------------:|
