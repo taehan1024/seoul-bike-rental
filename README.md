@@ -148,5 +148,5 @@ $$
                                        = \text{-5.55\\%}
 $$
 
-At Station 704, losing one bike does not impact the probability of a bike shortage, given an initial inventory of 57 bikes, with expected returns of 181 and rentals of 78.5.
-In contrast, Station 1920 faces a bike shortage, with expected returns of 15.5 and rentals of 31.8. Adding one bike reduces the probability of a shortage by approximately 5.55%.
+At $$\text{Station}_ {704}$$, losing one bike does not impact the probability of a bike shortage, given an initial number of 57 bikes, with expected returns of 181.1 and rentals of 78.5.
+In contrast, $$\text{Station}_ {1920}$$ faces a bike shortage, with expected returns of 15.5 and rentals of 31.8. Adding one bike reduces the probability of a shortage by approximately 5.55%.
