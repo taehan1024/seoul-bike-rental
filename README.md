@@ -26,7 +26,9 @@ Where:
 - $f_5(\text{past rentals/returns})$ accounts for rolling averages of bike rentals/returns over the past 7 days on an hourly basis, capturing both the inherent and recent demand for each station.
 
 ### **2. Daily Net Bike Rentals and Returns at Each Station**
-- Calculate the daily net predicted bike rentals and returns by accumulating hourly predictions from 6 Am to 5 AM the following day.
+- Calculate the daily net predicted bike rentals and returns by accumulating hourly predictions from 6 AM to 5 AM the following day.
+
+For $$\text{Station}_0 \text{on 6/24/2024}$$:
 
 |   station_number | date       |   hour |   rent_pred |   net_rent_pred |   return_pred |   net_return_pred |
 |-----------------:|:-----------|-------:|------------:|----------------:|--------------:|------------------:|
@@ -66,6 +68,8 @@ $$
 \text{Initial Bikes}_i = \left\lfloor \frac{\text{Bike Rentals}_i}{\text{Total Bike Rentals}} \times \text{Total Bikes} \right\rfloor
 $$
 
+For $$\text{Station}_0$$:
+
 $$
 \text{Initial Bikes}_0 = \left\lfloor \frac{\text{2,059}}{\text{4,431,917}} \times \text{39,162} \right\rfloor = \text{18} 
 $$
@@ -75,7 +79,11 @@ $$
 - Define bike shortage as the condition where the number of bikes remaining at a station drops below 0.
 - Using the [Skellam distribution](https://en.wikipedia.org/wiki/Skellam_distribution), calculate the probabilities of the differences between daily net predicted bike returns and rentals falling below the initial number of bikes, on an hourly basis for each station.
 
-For $$\text{Station}_i \text{ at } \text{Hour}_h \text{ on } \text{Date}_d$$:
+For $$\text{Station}_ {ij} \text{ at } \text{Hour}_h \text{ on } \text{Date}_d$$:
+
+$$
+P(\text{Shortage}) = \text{SkellamCDF}(-1 \cdot \text{Initial Bikes}, \text{Net Return}, \text{Net Rentals})
+$$
 
 $$
 P(\text{Shortage}) = \text{SkellamCDF}(-1 \cdot \text{Initial Bikes}, \text{Net Return}, \text{Net Rentals})
