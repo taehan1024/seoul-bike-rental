@@ -93,7 +93,7 @@ Where:
 For $$\text{Station}_ {1920}$$ $$\text{ at 1 PM on 6/24/2024}$$:
 
 $$
-P(\text{Shortage}) = \text{SkellamCDF}(\text{-14, } \text{15.5, } \text{31.8}) = 65.5%
+P(\text{Shortage}) = \text{SkellamCDF}(\text{-14, } \text{15.5, } \text{31.8}) = \text{65.5\\%}
 $$
 
 
@@ -133,19 +133,19 @@ For example, a bike renting from $$\text{Station}_ {704}$$ and returning to $$\t
 
 $$
 \Delta P(\text{Shortage}_ {1920}) = \text{SkellamCDF}(\text{-14, } \text{15.5, } \text{31.8}) - \text{SkellamCDF}(\text{-15, } \text{15.5, } \text{31.8})
-                                  = 59.9% - 65.5%
-                                  = -5.55%
+                                  = \text{59.9\\% - 65.5\\%}
+                                  = \text{-5.55\\%}
 $$
 
 $$
 \Delta P(\text{Shortage}_ {704}) = \text{SkellamCDF}(\text{-57, } \text{181.1, } \text{78.5}) - \text{SkellamCDF}(\text{-56, } \text{181.1, } \text{78.5})
-                                  = 0.0% - 0.0%
-                                  = ~0.0%
+                                  = \text{0.0\\% - 0.0\\%}
+                                  = \text{~0.0\\%}
 $$
 
 $$
-\Delta P(\text{Shortage}_ {704, 1920}) = -5.55% + ~0.0%
-                                       = -5.55%
+\Delta P(\text{Shortage}_ {704, 1920}) = \text{-5.55\\% + ~0.0\\%}
+                                       = \text{-5.55\\%}
 $$
 
 At Station 704, losing one bike does not impact the probability of a bike shortage, given an initial inventory of 57 bikes, with expected returns of 181 and rentals of 78.5.
