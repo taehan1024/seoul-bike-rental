@@ -93,26 +93,30 @@ $$
 ### **5. Ride Simulation** 
 - Per bike ride, returning stations would gain an additional bike reducing bike shortage probabilities while renting stations would lose one increasing the probabilities of bike shortage.  
 
-For a bike ride from $$\text{Station }_i$$ to $$\text{Station }_j \text{ at } \text{Hour}_h \text{ on } \text{Date}_d$$:
+
+
+
+
+For a bike ride from $$\text{Station}_i$$ to $$\text{Station}_j \text{ at } \text{Hour}_h \text{ on } \text{Date}_d$$:
 
 $$
-P(\text{Shortage}_{jdh} \text{ with +1 bike}) = \text{SkellamCDF}(-1 \times \text{Initial Bikes} - 1, \text{Net Return}_{jdh}, \text{Net Rentals}_{jdh})
-$$
-
-$$
-\Delta P(\text{Shortage}_{jdh}) = P(\text{Shortage}_{jdh} \text{ with +1 bike}) - P(\text{Shortage}_{jdh})
-$$
-
-$$
-P(\text{Shortage}_{idh} \text{ with -1 bike}) = \text{SkellamCDF}(-1 \cdot \text{Initial Bikes} + 1, \text{Net Return}_{idh}, \text{Net Rentals}_{idh})
+P(\text{Shortage after +1 bike}) = \text{SkellamCDF}(-1 \cdot \text{Initial Bikes} - 1, \text{Net Return}, \text{Net Rentals})
 $$
 
 $$
-\Delta P(\text{Shortage}_{idh}) = P(\text{Shortage}_{idh} \text{ with -1 bike}) - P(\text{Shortage}_{idh})
+\Delta P(\text{Shortage}) = P(\text{Shortage after +1 bike}) - P(\text{Shortage})
 $$
 
 $$
-\Delta P(\text{Shortage}) \text{ for Ride}_{ijdh} = \Delta P(\text{Shortage}_{jdh}) + \Delta P(\text{Shortage}_{idh})
+P(\text{Shortage after -1 bike}) = \text{SkellamCDF}(-1 \cdot \text{Initial Bikes} + 1, \text{Net Return}, \text{Net Rentals})
+$$
+
+$$
+\Delta P(\text{Shortage}) = P(\text{Shortage after -1 bike}) - P(\text{Shortage})
+$$
+
+$$
+\Delta P(\text{Shortage}) \text{ for } \text{Ride}_{ij} = \Delta P(\text{Shortage}) \text{ at } \text{Station}_{i} + \Delta P(\text{Shortage}) \text{ at } \text{Station}_{j}
 $$
 
 
