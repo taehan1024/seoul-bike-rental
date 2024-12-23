@@ -116,7 +116,7 @@ $$
 $$
 
 $$
-\Delta P(\text{Shortage}) \text{ for } \text{Ride}_{ij} = \Delta P(\text{Shortage}) \text{ at } \text{Station}_{i} + \Delta P(\text{Shortage}) \text{ at } \text{Station}_{j}
+\Delta P(\text{Shortage}) \text{ for } \text{Ride}_{ij} = \Delta P(\text{Shortage}) \text{ at } \text{Station}_i + \Delta P(\text{Shortage}) \text{ at } \text{Station}_ij
 $$
 
 
