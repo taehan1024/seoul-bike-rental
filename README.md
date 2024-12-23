@@ -93,7 +93,7 @@ Where:
 For $$\text{Station}_ {1920}$$ $$\text{ at 1 PM on 6/24/2024}$$:
 
 $$
-P(\text{Shortage}) = \text{SkellamCDF}(\text{-14, } \text{15.5, } \text{31.8}) = \text{65.5%} 
+P(\text{Shortage}) = \text{SkellamCDF}(\text{-14, } \text{15.5, } \text{31.8}) = \text{65.5} \text{\%} 
 $$
 
 
