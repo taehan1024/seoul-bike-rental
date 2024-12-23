@@ -79,14 +79,10 @@ $$
 - Define bike shortage as the condition where the number of bikes remaining at a station drops below 0.
 - Using the [Skellam distribution](https://en.wikipedia.org/wiki/Skellam_distribution), calculate the probabilities of the differences between daily net predicted bike returns and rentals falling below the initial number of bikes, on an hourly basis for each station.
 
-For $$\text{Station}_ {ij} \text{ at } \text{Hour}_h \text{ on } \text{Date}_d$$:
+For $$\text{Station}_i \text{ at } \text{Hour}_h \text{ on } \text{Date}_d$$:
 
 $$
-P(\text{Shortage}) = \text{SkellamCDF}(-1 \cdot \text{Initial Bikes}, \text{Net Return}, \text{Net Rentals})
-$$
-
-$$
-P(\text{Shortage}) = \text{SkellamCDF}(-1 \cdot \text{Initial Bikes}, \text{Net Return}, \text{Net Rentals})
+P(\text{Shortage}_ {idh}) = \text{SkellamCDF}(-1 \cdot \text{Initial Bikes}_ {i}, \text{Net Return}_ {idh}, \text{Net Rentals}_ {idh})
 $$
 
 Where:
@@ -94,38 +90,48 @@ Where:
 - $\text{Net Return}_{idh}$: Daily net predicted bike returns at the given $\text{Date}_d$ and $\text{Hour}_h$.  
 - $\text{Net Rentals}_{idh}$: Daily net predicted bike rentals at the given $\text{Date}_d$ and $\text{Hour}_h$. 
 
+For $$\text{Station}_0 \text{ for } \text{Station}_0 \text{ at 6 PM on 6/24/2024}:
+
 $$
-P(\text{Shortage}) \text{ for } \text{Station}_0 \text{ at 6 PM on 6/24} = \text{SkellamCDF}(\text{-18, } \text{53.71, } \text{41.11}) = \text{18.22\%} 
+P(\text{Shortage}) = \text{SkellamCDF}(\text{-18, } \text{53.71, } \text{41.11}) = \text{18.22\%} 
 $$
+
 
 ### **5. Ride Simulation** 
-- Per bike ride, returning stations would gain an additional bike reducing bike shortage probabilities while renting stations would lose one increasing the probabilities of bike shortage.  
+- For each ride, the return station gains one additional bike, while the renting station loses one, influencing bike shortage probabilities. 
+- Calculate the changes in bike shortage probabilities when gaining or losing one additional bike, given the date and hour for each station. 
+
+When return $$\text{Station}_j$$ gains a bike at $$\text{Hour}_h$$ on $$\text{Date}_d$$:
+
+$$
+P(\text{Shortage after +1 bike}_ {jdh}) = \text{SkellamCDF}(-1 \cdot \text{Initial Bikes}_ {j} - 1, \text{Net Return}_ {jdh}, \text{Net Rentals}_ {jdh})
+$$
+
+$$
+\Delta P(\text{Shortage}_ {jdh}) = P(\text{Shortage after +1 bike}_ {jdh}) - P(\text{Shortage}_ {jdh})
+$$
+
+When renting $$\text{Station}_i$$ loses a bike at $$\text{Hour}_h$$ on $$\text{Date}_d$$:
+
+$$
+P(\text{Shortage after -1 bike}_ {idh}) = \text{SkellamCDF}(-1 \cdot \text{Initial Bikes}_ {i} + 1, \text{Net Return}_ {idh}, \text{Net Rentals}_ {idh})
+$$
+
+$$
+\Delta P(\text{Shortage}_ {idh}) = P(\text{Shortage after -1 bike}_ {idh}) - P(\text{Shortage}_ {idh})
+$$
+
+When a bike travels from $$\text{Station}_i$$ to $$\text{Station}_j$$, the bike-sharing system experiences the following change in overall bike shortage probabilities:
+
+$$
+\Delta P(\text{Shortage}_ {ijdh}) = \Delta P(\text{Shortage}_ {idh}) + \Delta P(\text{Shortage}_ {jdh})
+$$
 
 
 
 
 
-For a bike ride from $$\text{Station}_i$$ to $$\text{Station}_j \text{ at } \text{Hour}_h \text{ on } \text{Date}_d$$:
 
-$$
-P(\text{Shortage after +1 bike}) = \text{SkellamCDF}(-1 \cdot \text{Initial Bikes} - 1, \text{Net Return}, \text{Net Rentals})
-$$
-
-$$
-\Delta P(\text{Shortage}) = P(\text{Shortage after +1 bike}) - P(\text{Shortage})
-$$
-
-$$
-P(\text{Shortage after -1 bike}) = \text{SkellamCDF}(-1 \cdot \text{Initial Bikes} + 1, \text{Net Return}, \text{Net Rentals})
-$$
-
-$$
-\Delta P(\text{Shortage}) = P(\text{Shortage after -1 bike}) - P(\text{Shortage})
-$$
-
-$$
-\Delta P(\text{Shortage}) \text{ for } \text{Ride}_{ij} = \Delta P(\text{Shortage}) \text{ at } \text{Station}_i + \Delta P(\text{Shortage}) \text{ at } \text{Station}_j
-$$
 
 
 - Calculate the probabilities of shortage assuming the addition of one extra bike, and determine the differences from the original shortage probabilities. These differences represent the reduction in shortage probabilities due to the additional bike.
